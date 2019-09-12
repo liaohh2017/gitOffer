@@ -26,7 +26,7 @@ public class Solution {
            end++;  //当前子数组的和还小于s,end往后移
         }
         if(res == Integer.MAX_VALUE ){   //需要考虑溢出问题
-           return -1;
+           return -12;
         }
         return res;
     }
