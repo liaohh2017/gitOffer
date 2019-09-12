@@ -1,33 +1,68 @@
-public class Solution {
-    /**
-     * @param nums: an array of integers
-     * @param s: an integer
-     * @return: an integer representing the minimum size of subarray
-     */
-    public int minimumSize(int[] nums, int s) {
-           if(nums == null || nums.length == 0)
-                     return -1;
-            int end =0;
-            int start = 0;
-            int sum = 0;
-            int res = Integer.MAX_VALUE;
-        while(end < nums.length){
-           sum +=nums[end];
-           if(sum >= s){
-              res = Math.min(res,end-start+1);
-              //当扫描到数组和大于s时，从第一个元素逐次缩小数组大小，
-                  //直到符合条件的最小子数组
-              while(sum >= s && start <= end){   
-                  res = Math.min(res,end-start+1);
-                  sum-=nums[start];
-                   start++;
-                    }
-                 }
-           end++;  //当前子数组的和还小于s,end往后移
+package test;
+
+import java.util.Scanner;
+import java.util.Stack;
+
+
+public class Welcome {
+
+    public static String completeParentese(String str) {
+        Stack<String> optrStack = new Stack<>();
+        Stack<String> dataStack = new Stack<>();
+        String pre="";
+        for (int i = 0; i < str.length(); i++) {
+        	
+            if (isDigit(str.charAt(i))) {
+//            	int temp=i;
+                // 处理数字的情况
+//            	while(temp<str.length()&&isDigit(str.charAt(temp))){
+            		pre += String.valueOf(str.charAt(i));
+//            		temp++;
+//            	}
+            	if(!isDigit(str.charAt(i+1))){
+            		dataStack.push(String.valueOf(pre));
+            		pre="";
+            	}
+                
+//                i=temp;
+                
+            } else if (isOpeartor(str.charAt(i))) {
+                // 处理操作符的情况
+                optrStack.push(String.valueOf(str.charAt(i)));
+            } else {
+                // 处理右括号的情况
+                String d2 = dataStack.pop();
+                String d1 = dataStack.pop();
+                String opt = optrStack.pop();
+                String exstr = "(" + d1 + opt + d2 + ")";
+                dataStack.push(exstr);
+            }
         }
-        if(res == Integer.MAX_VALUE ){   //需要考虑溢出问题
-           return -12;
+
+        while (optrStack.size() > 0) {
+            String opt = optrStack.pop();
+            String d2 = dataStack.pop();
+            String d1 = dataStack.pop();
+            String exstr = "(" + d1 + opt + d2 + ")";
+            dataStack.push(exstr);
         }
-        return res;
+
+        return dataStack.pop();
+    }
+
+    private static boolean isOpeartor(char ch) {
+        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+    }
+
+    private static boolean isDigit(char ch) {
+        return ch >= '0' && ch <= '9';
+    }
+
+    public static void main(String[] args) {
+    	Scanner in=new Scanner(System.in);
+    	String str = in.nextLine();
+//        String str = "1+21)*3-4)*5-6)))";
+        String res = completeParentese(str);
+        System.out.println(res);
     }
 }
