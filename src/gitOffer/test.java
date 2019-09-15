@@ -1,68 +1,23 @@
-package test;
+std::ios::sync_with_stdio(false);
+	long long l,r;
+		cin>>l>>r;
+		ll mx=2e9,mx1=2e9;
+		ll l1=l%2019,rr=r%2019;
+		if(l1>=rr||r-l>=2019){
+			for(ll i=l1;i<2019;i++)
+				for(ll j=i+1;j<2019;j++)
+					mx1=min(mx1,(i*j)%2019);
+			for(ll i=0;i<=rr;i++)
+				for(ll j=i+1;j<=rr;j++)
+					mx1=min(mx1,(i*j)%2019);
+		}
+		else{
+			for(ll i=l1;i<=rr;i++)
+				for(ll j=i+1;j<=rr;j++)
+					mx1=min(mx1,(1ll*i*j)%2019);
+		}
+		cout<<mx1<<"\n";
 
-import java.util.Scanner;
-import java.util.Stack;
-
-
-public class Welcome {
-
-    public static String completeParentese(String str) {
-        Stack<String> optrStack = new Stack<>();
-        Stack<String> dataStack = new Stack<>();
-        String pre="";
-        for (int i = 0; i < str.length(); i++) {
-        	
-            if (isDigit(str.charAt(i))) {
-//            	int temp=i;
-                // 处理数字的情况
-//            	while(temp<str.length()&&isDigit(str.charAt(temp))){
-            		pre += String.valueOf(str.charAt(i));
-//            		temp++;
-//            	}
-            	if(!isDigit(str.charAt(i+1))){
-            		dataStack.push(String.valueOf(pre));
-            		pre="";
-            	}
-                
-//                i=temp;
-                
-            } else if (isOpeartor(str.charAt(i))) {
-                // 处理操作符的情况
-                optrStack.push(String.valueOf(str.charAt(i)));
-            } else {
-                // 处理右括号的情况
-                String d2 = dataStack.pop();
-                String d1 = dataStack.pop();
-                String opt = optrStack.pop();
-                String exstr = "(" + d1 + opt + d2 + ")";
-                dataStack.push(exstr);
-            }
-        }
-
-        while (optrStack.size() > 0) {
-            String opt = optrStack.pop();
-            String d2 = dataStack.pop();
-            String d1 = dataStack.pop();
-            String exstr = "(" + d1 + opt + d2 + ")";
-            dataStack.push(exstr);
-        }
-
-        return dataStack.pop();
-    }
-
-    private static boolean isOpeartor(char ch) {
-        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
-    }
-
-    private static boolean isDigit(char ch) {
-        return ch >= '0' && ch <= '9';
-    }
-
-    public static void main(String[] args) {
-    	Scanner in=new Scanner(System.in);
-    	String str = in.nextLine();
-//        String str = "1+21)*3-4)*5-6)))";
-        String res = completeParentese(str);
-        System.out.println(res);
-    }
-}
+————————————————
+版权声明：本文为CSDN博主「白驼山欧阳锋」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/bailichuan266/article/details/95042235
