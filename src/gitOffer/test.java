@@ -1,23 +1,25 @@
-std::ios::sync_with_stdio(false);
-	long long l,r;
-		cin>>l>>r;
-		ll mx=2e9,mx1=2e9;
-		ll l1=l%2019,rr=r%2019;
-		if(l1>=rr||r-l>=2019){
-			for(ll i=l1;i<2019;i++)
-				for(ll j=i+1;j<2019;j++)
-					mx1=min(mx1,(i*j)%2019);
-			for(ll i=0;i<=rr;i++)
-				for(ll j=i+1;j<=rr;j++)
-					mx1=min(mx1,(i*j)%2019);
-		}
-		else{
-			for(ll i=l1;i<=rr;i++)
-				for(ll j=i+1;j<=rr;j++)
-					mx1=min(mx1,(1ll*i*j)%2019);
-		}
-		cout<<mx1<<"\n";
+    public boolean isValidSudoku(char[][] board) {
+        // 记录某行，某位数字是否已经被摆放
+        boolean[][] row = new boolean[9][9];
+        // 记录某列，某位数字是否已经被摆放
+        boolean[][] col = new boolean[9][9];
+        // 记录某 3x3 宫格内，某位数字是否已经被摆放
+        boolean[][] block = new boolean[9][9];
 
-————————————————
-版权声明：本文为CSDN博主「白驼山欧阳锋」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/bailichuan266/article/details/95042235
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '1';
+                    int blockIndex = i / 3 * 3 + j / 3;
+                    if (row[i][num] || col[j][num] || block[blockIndex][num]) {
+                        return false;
+                    } else {
+                        row[i][num] = true;
+                        col[j][num] = true;
+                        block[blockIndex][num] = true;
+                    }
+                }
+            }
+        }
+        return true;
+    }
