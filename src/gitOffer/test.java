@@ -1,73 +1,47 @@
+import java.math.BigInteger;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class Example {
-    static class Pair{
-        int first;
-        int second;
+import java.util.*;
 
-        public Pair(int first, int second) {
-            this.first = first;
-            this.second = second;
-        }
-
-        public int getFirst() {
-            return first;
-        }
-
-        public void setFirst(int first) {
-            this.first = first;
-        }
-
-        public int getSecond() {
-            return second;
-        }
-
-        public void setSecond(int second) {
-            this.second = second;
-        }
-    }
+import java.util.*;
+public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        int T = input.nextInt();
-        List<String> res = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        String n1=sc.next();
+        String m1=sc.next();
+        BigInteger n=new BigInteger(n1);
+        BigInteger m=new BigInteger(m1);
+        String s=sc.next();
+        BigInteger k=new BigInteger(s);
 
-        for (int i = 0; i < T; i++) {
-            int m = input.nextInt();
-            int n = input.nextInt();
-            List<Pair> list = new ArrayList<>();
-            for (int j = 0; j < n; j++) {
-                int f = input.nextInt();
-                int s = input.nextInt();
-                list.add(new Pair(Math.min(f,s),Math.max(f,s)));
+        if(n.multiply(m).compareTo(k)<=0){
+            System.out.println(0);
+        }
+        boolean flag=false;
+       int num=0;
+
+        while(!flag){
+            num+=1;
+            HashMap<Integer,Integer> map=new HashMap<>();
+            for (int i = 0; i <=num; i++) {
+                map.put(i,num-i);
             }
-
-            int mid = 0;
-            String s = "IMPOSSIBLE";
-            for (int j = 0; j < n; j++) {
-                if(list.get(j).first == 1 && list.get(j).second == m) {
-                    s = "POSSIBLE";
+            for (int i = 0; i <=num/2 ; i++) {
+                BigInteger a=new BigInteger(String.valueOf(i));
+                BigInteger b=new BigInteger(String.valueOf(map.get(i)));
+                if(((n.subtract(a)).multiply(m.subtract(b))).compareTo(k)<=0||((n.subtract(b)).multiply(m.subtract(a)).compareTo(k)<=0)){
+                    System.out.println(num);
+                    flag=true;
                     break;
-                } else if (list.get(j).first == 1 ) {
-                    if(list.get(j).second == mid){
-                        s = "POSSIBLE";
-                        break;
-                    } else {
-                        mid = list.get(j).second;
-                    }
 
-                } else if(list.get(j).second == m) {
-                    if(list.get(j).first == mid) {
-                        s = "POSSIBLE";
-                        break;
-                    }else
-                        mid = list.get(j).first;
+                }else {
+                    continue;
                 }
             }
-            res.add(s);
+
         }
-        for(String x : res) System.out.println(x);
+
     }
 }
