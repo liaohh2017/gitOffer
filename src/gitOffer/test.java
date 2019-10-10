@@ -1,30 +1,56 @@
-ist<List<Integer>> res = new ArrayList<>();
-	public List<List<Integer>> permute(int[] nums) {
-		res.clear();
-		dfs(nums, 0);//
-		return res;
-	}
+package test;
+
+import java.util.*;
+
+public class p{
 	
-	public void dfs(int[] n, int start) {//start表示要被替换元素的位置
-		if( start >= n.length) {
-			List<Integer> list = new ArrayList<Integer>();
-			for(int i : n) {
-				list.add(i);
-			}
-			res.add(list);
-			return;
-		}
-		
-		for(int i = start; i< n.length; i++) {//i从start开始，如果从start+1开始的话，会把当前序列遗漏掉直接保存了下一个序列
-			int temp= n[i];
-			n[i] = n[start];
-			n[start] = temp;
-			dfs(n, start + 1);//递归下一个位置
-			//回到上一个状态
-			n[start] = n[i];
-			n[i] = temp;
-		}
-	}
-————————————————
-版权声明：本文为CSDN博主「qijingpei」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/qijingpei/article/details/83930870
+
+	public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String A=sc.nextLine();
+        String B=sc.nextLine();
+        System.out.println(getLenStr(A,A.length(),B,B.length()));
+    }
+    /*
+     * i=0||j=0，dp[i][j]=0;
+     * A[i]=B[j]，dp[i][j]=dp[i-1][j-1]+1
+     * A[i]!=B[j],dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+     */
+    public static String getLenStr(String A,int m,String B,int n){
+        if(m==0||n==0||A==null||B==null){
+            return "-1";
+        }
+        int[][] dp=new int[m+1][n+1];
+        for(int i=0;i<=m;i++){
+            dp[i][0]=0;
+        }
+        for(int i=0;i<=n;i++){
+            dp[0][i]=0;
+        }
+        int max=Integer.MIN_VALUE;
+        int index=0;
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(A.charAt(i-1)==B.charAt(j-1)){
+                    dp[i][j]=dp[i-1][j-1]+1;
+                    if(dp[i][j]>max){
+                        max=dp[i][j];
+                        index=i-1;
+                    }
+                }else{
+                    dp[i][j]=0;
+                }
+            }
+        }
+        if(max==0){
+            return "-1";
+        }else{
+            int startIndex = index-max+1;
+            return A.substring(startIndex,index+1);
+        }
+        
+    }
+
+
+}
+
